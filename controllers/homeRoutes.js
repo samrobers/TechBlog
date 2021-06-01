@@ -1,18 +1,18 @@
-const router = require('express').Router();
-const { User } = require('../models');
-const withAuth = require('../utils/auth');
+const router = require("express").Router();
+const { User, Blog, Comment } = require("../models");
+const withAuth = require("../utils/auth");
 
-router.get('/', withAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const userData = await User.findAll({
-      attributes: { exclude: ['password'] },
-      order: [['name', 'ASC']],
+    const blogData = await Blog.findAll({
+      include: [{ model: User }, { model: Comment }],
     });
 
-    const users = userData.map((project) => project.get({ plain: true }));
+    const blogs = blogData.map((blog) => blog.get({ plain: true }));
 
-    res.render('homepage', {
-      users,
+    console.log(blogs);
+    res.render("homepage", {
+      blogs,
       logged_in: req.session.logged_in,
     });
   } catch (err) {
@@ -20,17 +20,20 @@ router.get('/', withAuth, async (req, res) => {
   }
 });
 
-router.get('/login', (req, res) => {
+router.get("/login", (req, res) => {
   if (req.session.logged_in) {
-    res.redirect('/');
+    res.redirect("/");
     return;
   }
 
-  res.render('login');
+  res.render("login");
 });
-router.get('/signup', (req, res) => {
-  
-  res.render('signup');
+
+router.get("/signup", (req, res) => {
+  res.render("signup");
+});
+router.get("/dashboard", (req, res) => {
+  res.render("dashboard");
 });
 
 module.exports = router;

@@ -45,6 +45,18 @@ router.post("/signup", async (req, res) => {
     res.status(400).json(err);
   }
 });
+router.post("/dashboard", async (req, res) => {
+  try {
+    const blogData = await Blog.create(req.body);
+    req.session.save(() => {
+      req.session.title = blogData.title;
+      req.session.description = blogData.description;
+      res.json({ user: userData, message: "You are now logged in!" });
+    });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
 
 router.post("/logout", (req, res) => {
   if (req.session.logged_in) {
