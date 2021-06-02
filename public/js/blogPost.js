@@ -5,7 +5,7 @@ const blogFormHandler = async (event) => {
   const content = document.querySelector("#blog-content").value.trim();
   console.log(title, content);
   if (title && content) {
-    const response = await fetch("/api/users/dashboard", {
+    const response = await fetch("/api/users/newblog", {
       method: "POST",
       body: JSON.stringify({ title, content }),
       headers: { "Content-Type": "application/json" },

@@ -45,13 +45,16 @@ router.post("/signup", async (req, res) => {
     res.status(400).json(err);
   }
 });
-router.post("/dashboard", async (req, res) => {
+
+
+router.post("/newblog", async (req, res) => {
   try {
     const blogData = await Blog.create(req.body);
+    console.log(blogData);
     req.session.save(() => {
       req.session.title = blogData.title;
       req.session.description = blogData.description;
-      res.json({ user: userData, message: "You are now logged in!" });
+      res.json({ blog: blogData, message: "You made a Post" });
     });
   } catch (err) {
     res.status(400).json(err);
@@ -69,3 +72,12 @@ router.post("/logout", (req, res) => {
 });
 
 module.exports = router;
+// router.post("/", async (req, res) => {
+//   // create a new category
+//   try {
+//     const categoryData = await Category.create(req.body);
+//     res.status(200).json(categoryData);
+//   } catch (err) {
+//     res.status(400).json(err);
+//   }
+// });

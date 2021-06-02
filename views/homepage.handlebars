@@ -1,10 +1,13 @@
 {{#each blogs as |blog|}}
-  <div class="card bg-danger text-light" style="width: 18rem">
+  <div class="card bg-danger text-light col-sm-5 mt-5 mr-5 ml-5 text-center" style="width: 18rem">
     <div class="card-body">
-      <h5 class="card-title">{{blog.title}}</h5>
-      <h6 class="card-subtitle mb-2">{{blog.user.name}}</h6>
-      <p class="card-text">
-      </p>
+      <h4 class="card-title"> Title: {{blog.title}}</h4>
+      <h6 class="card-subtitle mb-2">Author: {{blog.user.name}}</h6>
+      <h5 class="card-text">
+        Content:
+        {{blog.description}}
+      </h5>
+      <p class="card-title">Date:{{blog.postedDate}}</p>
     </div>
   </div>
 {{/each}}
