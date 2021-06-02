@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User } = require("../../models");
+const { User, Blog } = require("../../models");
 
 router.post("/login", async (req, res) => {
   try {
@@ -46,11 +46,11 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-
 router.post("/newblog", async (req, res) => {
   try {
+    console.log("this is the reqbody", req.body);
     const blogData = await Blog.create(req.body);
-    console.log(blogData);
+    console.log("this is the blogData", blogData);
     req.session.save(() => {
       req.session.title = blogData.title;
       req.session.description = blogData.description;

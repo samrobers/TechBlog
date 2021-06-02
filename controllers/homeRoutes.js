@@ -9,8 +9,9 @@ router.get("/", async (req, res) => {
     });
 
     const blogs = blogData.map((blog) => blog.get({ plain: true }));
-
+    // const userData = req.session.status
     console.log(blogs);
+
     res.render("homepage", {
       blogs,
       logged_in: req.session.logged_in,
@@ -20,13 +21,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/login", (req, res) => {
+router.get("/login", withAuth, (req, res) => {
   if (req.session.logged_in) {
-    res.redirect("/");
+    res.redirect("/dashboard");
     return;
+  } else {
+    res.render("login");
   }
-
-  res.render("login");
 });
 
 router.get("/signup", (req, res) => {
