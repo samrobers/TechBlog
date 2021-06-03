@@ -33,12 +33,12 @@
               <li class="nav-item active">
                 <a class="nav-link" href="/">Home-Page </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/dashboard">Dashboard</a>
-              </li>
               {{#if logged_in}}
                 <li class="nav-item">
-                  <a class="nav-link" href="/logout">Log-Out</a>
+                  <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/api/users/logout">Log-Out</a>
                 </li>
               {{else}}
                 <li class="nav-item">

@@ -2,12 +2,12 @@ const blogFormHandler = async (event) => {
   event.preventDefault();
 
   const title = document.querySelector("#blog-title").value.trim();
-  const content = document.querySelector("#blog-content").value.trim();
-  console.log(title, content);
-  if (title && content) {
+  const description = document.querySelector("#blog-content").value.trim();
+  console.log(title, description);
+  if (title && description) {
     const response = await fetch("/api/users/newblog", {
       method: "POST",
-      body: JSON.stringify({ title, content }),
+      body: JSON.stringify({ title, description }),
       headers: { "Content-Type": "application/json" },
     });
     document.location.replace("/");
@@ -16,5 +16,5 @@ const blogFormHandler = async (event) => {
   }
 };
 document
-  .querySelector(".submit-blog")
+  .querySelector(".blog-form")
   .addEventListener("submit", blogFormHandler);

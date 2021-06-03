@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { User, Blog, Comment } = require("../models");
 const withAuth = require("../utils/auth");
+const moment = require("moment");
 
 router.get("/", async (req, res) => {
   try {
@@ -8,7 +9,13 @@ router.get("/", async (req, res) => {
       include: [{ model: User }, { model: Comment }],
     });
 
-    const blogs = blogData.map((blog) => blog.get({ plain: true }));
+    const blogs = blogData.map((blog) => {
+      blog = blog.get({ plain: true });
+      console.log(blog);
+      blog.postedDate = moment(blog.postedDate).format("MM/DD/YYYY");
+
+      return blog;
+    });
     // const userData = req.session.status
     console.log(blogs);
 
@@ -21,7 +28,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/login", withAuth, (req, res) => {
+router.get("/login", (req, res) => {
   if (req.session.logged_in) {
     res.redirect("/");
     return;
@@ -34,7 +41,13 @@ router.get("/signup", (req, res) => {
   res.render("signup");
 });
 router.get("/dashboard", (req, res) => {
-  res.render("dashboard");
+  console.log(req.session);
+  if (!req.session.logged_in) {
+    res.redirect("/");
+    return;
+  } else {
+    res.render("dashboard", { logged_in: req.session.logged_in });
+  }
 });
 
 module.exports = router;

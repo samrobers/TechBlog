@@ -47,8 +47,9 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/newblog", async (req, res) => {
-  try {
+  // try {
     console.log("this is the reqbody", req.body);
+    req.body.user_id = req.session.user_id;
     const blogData = await Blog.create(req.body);
     console.log("this is the blogData", blogData);
     req.session.save(() => {
@@ -56,15 +57,15 @@ router.post("/newblog", async (req, res) => {
       req.session.description = blogData.description;
       res.json({ blog: blogData, message: "You made a Post" });
     });
-  } catch (err) {
-    res.status(400).json(err);
-  }
+  // } catch (err) {
+  //   res.status(400).json(err);
+  // }
 });
 
-router.post("/logout", (req, res) => {
+router.get("/logout", (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
-      res.status(204).end();
+      res.redirect("/");
     });
   } else {
     res.status(404).end();
